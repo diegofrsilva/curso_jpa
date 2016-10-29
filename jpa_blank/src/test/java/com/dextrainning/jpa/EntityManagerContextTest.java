@@ -7,18 +7,18 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.dextraining.entidade.Entidade;
-import com.dextraining.jpa.EntityManagerContext;
+import com.dextraining.jpa.EntityManagerUtil;
 
 public class EntityManagerContextTest {
 
 	@After
 	public void tearDown() {
-		EntityManagerContext.close();
+		EntityManagerUtil.fechar();
 	}
 
 	@Test
 	public void criarEntityManagerTeste() {
-		EntityManager em = EntityManagerContext.getEntityManager();
+		EntityManager em = EntityManagerUtil.criarEntityManager();
 		em.getTransaction().begin();
 		Entidade entidade = new Entidade();
 		em.persist(entidade);

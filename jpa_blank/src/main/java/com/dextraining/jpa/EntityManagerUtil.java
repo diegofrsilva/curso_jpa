@@ -8,18 +8,18 @@ import javax.persistence.Persistence;
  * Classe que lida com a criacao dos {@link EntityManager}.
  *
  */
-public class EntityManagerContext {
+public class EntityManagerUtil {
 
 	private static EntityManagerFactory FACTORY;
 
-	public static EntityManager getEntityManager() {
+	public static EntityManager criarEntityManager() {
 		if (FACTORY == null) {
 			FACTORY = Persistence.createEntityManagerFactory("MY_PERSISTENCE_UNIT_NAME");
 		}
 		return FACTORY.createEntityManager();
 	}
 
-	public static void close() {
+	public static void fechar() {
 		if (FACTORY != null) {
 			FACTORY.close();
 		}
