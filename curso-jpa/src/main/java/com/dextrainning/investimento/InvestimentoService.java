@@ -1,6 +1,12 @@
 package com.dextrainning.investimento;
 
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
+
 import com.dextrainning.exception.ValidacaoException;
+import com.dextrainning.jpa.EntityManagerUtil;
 import com.dextrainning.service.GenericService;
 
 public class InvestimentoService extends GenericService<Investimento> {
@@ -21,5 +27,16 @@ public class InvestimentoService extends GenericService<Investimento> {
 			throw new ValidacaoException("Valor invalido");
 		}
 		super.salvar(investimento);
+	}
+
+	public List<Investimento> buscarTodosOrdenadosPorValorDesc() {
+		EntityManager em = EntityManagerUtil.criarEntityManager();
+		try {
+			String jpql = "SELECT i FROM Investimento i ORDER BY i.valor DESC";
+			TypedQuery<Investimento> query = em.createQuery(jpql, Investimento.class);
+			return query.getResultList();
+		} finally {
+			em.close();
+		}
 	}
 }
