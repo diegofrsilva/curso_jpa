@@ -11,18 +11,19 @@ import java.util.List;
 
 import com.dextraining.garagem.dominio.veiculo.Veiculo;
 import com.dextraining.garagem.dominio.veiculo.VeiculoComparator;
+import com.dextraining.garagem.exception.VeiculoDuplicadoException;
+import com.dextraining.garagem.exception.VeiculoNaoEncontradoException;
 
 public class GaragemComArquivoCSV implements Garagem {
 	private static final String ARQUIVO = "/home/java01/veiculos.csv";
 
 	@Override
-	public boolean adicionar(Veiculo veiculo) {
+	public void adicionar(Veiculo veiculo) {
 		Veiculo veiculoEncontrado = buscar(veiculo.getPlaca());
 		if (veiculoEncontrado != null) {
-			return false;
+			throw new VeiculoDuplicadoException();
 		}
 		salvarNoArquivo(veiculo, true);
-		return true;
 	}
 
 	private void salvarNoArquivo(List<Veiculo> veiculos) {
@@ -59,17 +60,17 @@ public class GaragemComArquivoCSV implements Garagem {
 	}
 
 	@Override
-	public boolean vender(String placa) {
+	public void vender(String placa) {
 		List<Veiculo> veiculos = listar();
 
 		for (Veiculo veiculo : veiculos) {
 			if (veiculo.getPlaca().equals(placa)) {
 				veiculos.remove(veiculo);
 				salvarNoArquivo(veiculos);
-				return true;
+				break;
 			}
 		}
-		return false;
+		throw new VeiculoNaoEncontradoException();
 	}
 
 	@Override

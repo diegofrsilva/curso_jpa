@@ -8,6 +8,8 @@ import java.util.Map;
 
 import com.dextraining.garagem.dominio.veiculo.Veiculo;
 import com.dextraining.garagem.dominio.veiculo.VeiculoComparator;
+import com.dextraining.garagem.exception.VeiculoDuplicadoException;
+import com.dextraining.garagem.exception.VeiculoNaoEncontradoException;
 
 public class GaragemComMapa implements Garagem {
 
@@ -18,21 +20,19 @@ public class GaragemComMapa implements Garagem {
 	}
 
 	@Override
-	public boolean adicionar(Veiculo veiculo) {
+	public void adicionar(Veiculo veiculo) {
 		if (veiculos.containsKey(veiculo.getPlaca())) {
-			return false;
+			throw new VeiculoDuplicadoException();
 		}
 		veiculos.put(veiculo.getPlaca(), veiculo);
-		return true;
 	}
 
 	@Override
-	public boolean vender(String placa) {
+	public void vender(String placa) {
 		if (!veiculos.containsKey(placa)) {
-			return false;
+			throw new VeiculoNaoEncontradoException();
 		}
 		veiculos.remove(placa);
-		return true;
 	}
 
 	@Override

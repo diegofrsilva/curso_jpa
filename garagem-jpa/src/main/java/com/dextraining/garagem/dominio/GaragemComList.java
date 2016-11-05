@@ -6,6 +6,8 @@ import java.util.List;
 
 import com.dextraining.garagem.dominio.veiculo.Veiculo;
 import com.dextraining.garagem.dominio.veiculo.VeiculoComparator;
+import com.dextraining.garagem.exception.VeiculoDuplicadoException;
+import com.dextraining.garagem.exception.VeiculoNaoEncontradoException;
 
 public class GaragemComList implements Garagem {
 
@@ -16,23 +18,21 @@ public class GaragemComList implements Garagem {
 	}
 
 	@Override
-	public boolean adicionar(Veiculo veiculo) {
+	public void adicionar(Veiculo veiculo) {
 		Veiculo veiculoEncontrado = buscar(veiculo.getPlaca());
 		if (veiculoEncontrado != null) {
-			return false;
+			throw new VeiculoDuplicadoException();
 		}
 		veiculos.add(veiculo);
-		return true;
 	}
 
 	@Override
-	public boolean vender(String placa) {
+	public void vender(String placa) {
 		Veiculo veiculo = buscar(placa);
 		if (veiculo == null) {
-			return false;
+			throw new VeiculoNaoEncontradoException();
 		}
 		veiculos.remove(veiculo);
-		return true;
 	}
 
 	@Override

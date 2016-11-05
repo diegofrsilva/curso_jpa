@@ -1,6 +1,5 @@
 package com.dextraining.garagem.dominio;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.dextraining.garagem.dominio.veiculo.Veiculo;
@@ -8,16 +7,14 @@ import com.dextraining.garagem.dominio.veiculo.Veiculo;
 public class GaragemJPA implements Garagem {
 
 	@Override
-	public boolean adicionar(Veiculo veiculo) {
+	public void adicionar(Veiculo veiculo) {
 		// TODO Salvar novo veiculo no banco de dados
 		// TODO IMPORTANTE: Validar duplicidade da placa do veiculo
-		return false;
 	}
 
 	@Override
-	public boolean vender(String placa) {
+	public void vender(String placa) {
 		// TODO Implementar venda de veiculo por placa
-		return false;
 	}
 
 	@Override
@@ -34,7 +31,6 @@ public class GaragemJPA implements Garagem {
 		// ano;
 		// preco;
 
-		return new ArrayList<>();
+		return null;
 	}
-
 }

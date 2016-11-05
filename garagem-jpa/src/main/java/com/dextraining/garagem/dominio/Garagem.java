@@ -6,9 +6,9 @@ import com.dextraining.garagem.dominio.veiculo.Veiculo;
 
 public interface Garagem {
 
-	public boolean adicionar(Veiculo veiculo);
+	public void adicionar(Veiculo veiculo);
 
-	public boolean vender(String placa);
+	public void vender(String placa);
 
 	public Veiculo buscar(String placa);
 
