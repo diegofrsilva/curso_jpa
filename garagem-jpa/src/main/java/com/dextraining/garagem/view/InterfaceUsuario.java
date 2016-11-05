@@ -3,33 +3,42 @@ package com.dextraining.garagem.view;
 import java.io.IOException;
 import java.util.Scanner;
 
+import javax.swing.JFrame;
+
+import com.dexraining.garagem.jpa.EntityManagerUtil;
 import com.dextraining.garagem.dominio.Garagem;
 import com.dextraining.garagem.dominio.GaragemJPA;
 import com.dextraining.garagem.dominio.veiculo.Veiculo;
 import com.dextraining.garagem.exception.VeiculoDuplicadoException;
 import com.dextraining.garagem.exception.VeiculoNaoEncontradoException;
 
-public class InterfaceUsuario {
+public class InterfaceUsuario extends JFrame {
 
 	public static void main(String[] args) throws IOException {
+		new InterfaceUsuario();
+		
 		Scanner scanner = new Scanner(System.in);
 		Garagem garagem = new GaragemJPA();
 
-		int opcao = menu(scanner);
-		while (opcao != 5) {
-			if (opcao == 1) {
-				adicionarVeiculo(scanner, garagem);
-			} else if (opcao == 2) {
-				venderVeiculo(scanner, garagem);
-			} else if (opcao == 3) {
-				buscarVeiculo(scanner, garagem);
-			} else if (opcao == 4) {
-				listarVeiculos(garagem);
-			} else {
+		try {
+			int opcao = menu(scanner);
+			while (opcao != 5) {
+				if (opcao == 1) {
+					adicionarVeiculo(scanner, garagem);
+				} else if (opcao == 2) {
+					venderVeiculo(scanner, garagem);
+				} else if (opcao == 3) {
+					buscarVeiculo(scanner, garagem);
+				} else if (opcao == 4) {
+					listarVeiculos(garagem);
+				} else {
+				}
+				opcao = menu(scanner);
 			}
-			opcao = menu(scanner);
+		} finally {
+			scanner.close();
+			EntityManagerUtil.fechar();
 		}
-		scanner.close();
 	}
 
 	private static void listarVeiculos(Garagem garagem) {

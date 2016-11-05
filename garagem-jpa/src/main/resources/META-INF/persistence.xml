@@ -6,14 +6,26 @@
 	<!-- Persistence unit de exemplo. Aqui estao as configuracoes que mostram 
 		ao JPA como se conectar ao banco de dados -->
 
-	<persistence-unit name="BIBLIOTECA_PU" transaction-type="RESOURCE_LOCAL">
+	<persistence-unit name="GARAGEM_PU" transaction-type="RESOURCE_LOCAL">
 		<properties>
 			<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" />
 			<property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver" />
-			<property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/biblioteca" />
-			<property name="javax.persistence.jdbc.user" value="postgres" />
-			<property name="javax.persistence.jdbc.password" value="postgres" />
+			<property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/garagem" />
+			<property name="javax.persistence.jdbc.user" value="java01" />
+			<property name="javax.persistence.jdbc.password" value="java" />
 			<property name="hibernate.hbm2ddl.auto" value="update" />
+			<property name="hibernate.show_sql" value="true" />
+		</properties>
+	</persistence-unit>
+	
+	<persistence-unit name="GARAGEM_TESTEPU" transaction-type="RESOURCE_LOCAL">
+		<properties>
+			<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" />
+			<property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver" />
+			<property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/garagem_teste" />
+			<property name="javax.persistence.jdbc.user" value="java01" />
+			<property name="javax.persistence.jdbc.password" value="java" />
+			<property name="hibernate.hbm2ddl.auto" value="create" />
 			<property name="hibernate.show_sql" value="true" />
 		</properties>
 	</persistence-unit>
