@@ -22,7 +22,6 @@ public class PessoaServiceTest {
 		PessoaService pessoaService = new PessoaService();
 
 		Pessoa pessoa = new Pessoa();
-		pessoa.setId(1L);
 		pessoa.setDataNascimento(new Date());
 		pessoa.setNome("Diego Farias da Silva");
 		pessoaService.salvar(pessoa);

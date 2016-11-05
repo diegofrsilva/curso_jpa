@@ -24,7 +24,7 @@ public class GenericService<T> {
 			em.getTransaction().commit();
 		} catch (Exception e) {
 			em.getTransaction().rollback();
-			throw new RuntimeException(e);
+			throw e;
 		} finally {
 			em.close();
 		}
