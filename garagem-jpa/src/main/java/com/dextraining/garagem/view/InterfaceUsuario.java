@@ -3,8 +3,6 @@ package com.dextraining.garagem.view;
 import java.io.IOException;
 import java.util.Scanner;
 
-import javax.swing.JFrame;
-
 import com.dexraining.garagem.jpa.EntityManagerUtil;
 import com.dextraining.garagem.dominio.Garagem;
 import com.dextraining.garagem.dominio.GaragemJPA;
@@ -12,11 +10,11 @@ import com.dextraining.garagem.dominio.veiculo.Veiculo;
 import com.dextraining.garagem.exception.VeiculoDuplicadoException;
 import com.dextraining.garagem.exception.VeiculoNaoEncontradoException;
 
-public class InterfaceUsuario extends JFrame {
+public class InterfaceUsuario {
 
 	public static void main(String[] args) throws IOException {
 		new InterfaceUsuario();
-		
+
 		Scanner scanner = new Scanner(System.in);
 		Garagem garagem = new GaragemJPA();
 
