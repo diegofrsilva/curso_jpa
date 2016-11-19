@@ -1,34 +1,29 @@
 package com.dextrainning.investimento;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import com.dextrainning.jpa.Entidade;
 
 @Entity
-public class Investimento {
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
+public class Investimento extends Entidade {
 
 	@Column(nullable = false)
 	private Double valor;
-	
+
 	@Column(nullable = false)
 	private String descricao;
 
 	@Column(nullable = false)
 	private Double rendimentoMensal;
 
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "data_hora")
+	private Date data;
 
 	public Double getValor() {
 		return valor;
@@ -52,5 +47,13 @@ public class Investimento {
 
 	public void setRendimentoMensal(Double rendimentoMensal) {
 		this.rendimentoMensal = rendimentoMensal;
+	}
+
+	public void setData(Date data) {
+		this.data = data;
+	}
+
+	public Date getData() {
+		return data;
 	}
 }

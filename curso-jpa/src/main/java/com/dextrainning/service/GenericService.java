@@ -6,9 +6,10 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
+import com.dextrainning.jpa.Entidade;
 import com.dextrainning.jpa.EntityManagerUtil;
 
-public class GenericService<T> {
+public class GenericService<T extends Entidade> {
 
 	private Class<T> targetClass;
 
@@ -19,8 +20,12 @@ public class GenericService<T> {
 	public void salvar(T entidade) {
 		EntityManager em = EntityManagerUtil.criarEntityManager();
 		try {
-			em.getTransaction().begin();
-			em.persist(entidade);
+			em.getTransaction().begin(); 
+			if (entidade.getId() == null) {
+				em.persist(entidade);
+			} else {
+				em.merge(entidade);
+			}
 			em.getTransaction().commit();
 		} catch (Exception e) {
 			em.getTransaction().rollback();

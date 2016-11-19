@@ -46,6 +46,41 @@ public class InvestimentoServiceTest {
 		assertEstaEmDesc(investimentos);
 	}
 
+	@Test
+	public void buscarTodosMaioresQueMilTest() {
+		InvestimentoService investimentoService = new InvestimentoService();
+
+		investimentoService.salvar(criarInvestimento("Investimento 1", 0.10, 1500D)); // fora;
+		investimentoService.salvar(criarInvestimento("Investimento 2", 0.26, 1500D)); // dentro
+		investimentoService.salvar(criarInvestimento("Investimento 3", 0.26, 1000D)); // dentro
+		investimentoService.salvar(criarInvestimento("Investimento 4", 0.30, 900D)); // fora
+		investimentoService.salvar(criarInvestimento("Investimento 5", 0.25, 1200D)); // fora
+
+		List<Investimento> investimentos = investimentoService.buscarTodosMaioresQueMil();
+
+		Assert.assertEquals(2, investimentos.size());
+
+		for (Investimento investimento : investimentos) {
+			Assert.assertTrue(investimento.getValor() >= 1000);
+			Assert.assertTrue(investimento.getRendimentoMensal() > 0.25);
+		}
+	}
+
+	@Test
+	public void buscarPorDescricaoTest() {
+		InvestimentoService investimentoService = new InvestimentoService();
+
+		investimentoService.salvar(criarInvestimento("Investimento 1", 0.10, 1500D)); // fora;
+		investimentoService.salvar(criarInvestimento("Investimento 2", 0.26, 1500D)); // dentro
+		investimentoService.salvar(criarInvestimento("Investimento 3", 0.26, 1000D)); // dentro
+		investimentoService.salvar(criarInvestimento("Investimento 4", 0.30, 900D)); // fora
+		investimentoService.salvar(criarInvestimento("Investimento 5", 0.25, 1200D)); // fora
+		
+		Assert.assertEquals(5, investimentoService.buscarPorDescricao("tImENt").size());
+		Assert.assertEquals(1, investimentoService.buscarPorDescricao("4").size());
+		Assert.assertEquals(0, investimentoService.buscarPorDescricao("Qualquer").size());
+	}
+
 	private void assertEstaEmDesc(List<Investimento> investimentos) {
 		for (int i = 0; i < investimentos.size() - 1; i++) {
 			Investimento atual = investimentos.get(i);

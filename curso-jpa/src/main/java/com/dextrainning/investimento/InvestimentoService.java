@@ -39,4 +39,34 @@ public class InvestimentoService extends GenericService<Investimento> {
 			em.close();
 		}
 	}
+
+	public List<Investimento> buscarTodosMaioresQueMil() {
+		EntityManager em = EntityManagerUtil.criarEntityManager();
+		try {
+			StringBuilder jpql = new StringBuilder();
+			jpql.append("SELECT i FROM Investimento i ");
+			jpql.append("WHERE i.valor >= 1000 AND i.rendimentoMensal >  0.25");
+
+			TypedQuery<Investimento> query = em.createQuery(jpql.toString(), Investimento.class);
+			return query.getResultList();
+		} finally {
+			em.close();
+		}
+	}
+
+	public List<Investimento> buscarPorDescricao(String descricao) {
+		EntityManager em = EntityManagerUtil.criarEntityManager();
+		try {
+			StringBuilder jpql = new StringBuilder();
+			jpql.append("SELECT i FROM Investimento i ");
+			jpql.append("WHERE UPPER(i.descricao) LIKE UPPER(:descricao) order by i.data");
+
+			TypedQuery<Investimento> query = em.createQuery(jpql.toString(), Investimento.class);
+			query.setParameter("descricao", "%" + descricao + "%");
+			return query.getResultList();
+		} finally {
+			em.close();
+		}
+	}
+
 }

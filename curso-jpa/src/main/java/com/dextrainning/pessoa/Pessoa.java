@@ -1,36 +1,18 @@
 package com.dextrainning.pessoa;
 
-import java.util.Date;
-
 import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.MappedSuperclass;
 
-@Entity
-public class Pessoa {
+import com.dextrainning.jpa.Entidade;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
+@MappedSuperclass
+//@Entity
+//@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+//@DiscriminatorColumn(name = "tipo")
+public class Pessoa extends Entidade {
 
 	@Column(length = 50, nullable = false)
 	private String nome;
-
-	@Column(name = "data_nascimento")
-	@Temporal(TemporalType.DATE)
-	private Date dataNascimento;
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
 
 	public String getNome() {
 		return nome;
@@ -38,13 +20,5 @@ public class Pessoa {
 
 	public void setNome(String nome) {
 		this.nome = nome;
-	}
-
-	public Date getDataNascimento() {
-		return dataNascimento;
-	}
-
-	public void setDataNascimento(Date dataNascimento) {
-		this.dataNascimento = dataNascimento;
 	}
 }
