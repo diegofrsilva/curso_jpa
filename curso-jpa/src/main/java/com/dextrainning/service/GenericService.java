@@ -20,12 +20,8 @@ public class GenericService<T extends Entidade> {
 	public void salvar(T entidade) {
 		EntityManager em = EntityManagerUtil.criarEntityManager();
 		try {
-			em.getTransaction().begin(); 
-			if (entidade.getId() == null) {
-				em.persist(entidade);
-			} else {
-				em.merge(entidade);
-			}
+			em.getTransaction().begin();
+			saveOrUpdate(entidade, em);
 			em.getTransaction().commit();
 		} catch (Exception e) {
 			em.getTransaction().rollback();
@@ -33,6 +29,15 @@ public class GenericService<T extends Entidade> {
 		} finally {
 			em.close();
 		}
+	}
+
+	protected T saveOrUpdate(T entidade, EntityManager em) {
+		if (entidade.getId() == null) {
+			em.persist(entidade);
+		} else {
+			return em.merge(entidade);
+		}
+		return entidade;
 	}
 
 	public T buscarPorId(Long id) {

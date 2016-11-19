@@ -4,10 +4,13 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import com.dextrainning.jpa.Entidade;
+import com.dextrainning.pessoa.Pessoa;
+import com.dextrainning.pessoa.PessoaFisica;
 
 @Entity
 public class Investimento extends Entidade {
@@ -24,6 +27,9 @@ public class Investimento extends Entidade {
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "data_hora")
 	private Date data;
+
+	@ManyToOne
+	private PessoaFisica pessoa;
 
 	public Double getValor() {
 		return valor;
@@ -55,5 +61,13 @@ public class Investimento extends Entidade {
 
 	public Date getData() {
 		return data;
+	}
+
+	public void setPessoa(PessoaFisica pessoa) {
+		this.pessoa = pessoa;
+	}
+
+	public PessoaFisica getPessoa() {
+		return pessoa;
 	}
 }

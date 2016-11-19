@@ -1,9 +1,15 @@
 package com.dextrainning.pessoa;
 
-import javax.persistence.EntityManager;
+import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
+
+import com.dextrainning.banco.Agencia;
+import com.dextrainning.endereco.Endereco;
 import com.dextrainning.jpa.EntityManagerUtil;
 import com.dextrainning.service.GenericService;
+import com.dextrainning.telefone.Telefone;
 
 public class PessoaFisicaService extends GenericService<PessoaFisica> {
 
@@ -17,6 +23,7 @@ public class PessoaFisicaService extends GenericService<PessoaFisica> {
 		try {
 			em.getTransaction().begin();
 			if (entidade.getId() == null) {
+				// salvarTelefones(entidade.getTelefones(), em); Esta sendo salvo com cascade
 				salvarEndereco(entidade.getEndereco(), em);
 				em.persist(entidade);
 			} else {
@@ -25,10 +32,17 @@ public class PessoaFisicaService extends GenericService<PessoaFisica> {
 			}
 			em.getTransaction().commit();
 		} catch (Exception e) {
+			e.printStackTrace();
 			em.getTransaction().rollback();
 			throw e;
 		} finally {
 			em.close();
+		}
+	}
+
+	private void salvarTelefones(List<Telefone> telefones, EntityManager em) {
+		for (Telefone telefone : telefones) {
+			em.persist(telefone);
 		}
 	}
 
@@ -41,5 +55,15 @@ public class PessoaFisicaService extends GenericService<PessoaFisica> {
 			}
 		}
 		return endereco;
+	}
+
+	public List<PessoaFisica> buscarPorAgencia(Agencia agencia) {
+		String jpql = "SELECT pessoa FROM PessoaFisica pessoa";
+		jpql += " WHERE pessoa.agencia = :agencia";
+
+		EntityManager em = EntityManagerUtil.criarEntityManager();
+		TypedQuery<PessoaFisica> query = em.createQuery(jpql, PessoaFisica.class);
+		query.setParameter("agencia", agencia);
+		return query.getResultList();
 	}
 }
