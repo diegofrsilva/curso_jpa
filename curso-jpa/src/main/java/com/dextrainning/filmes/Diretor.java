@@ -1,14 +1,12 @@
-package com.dextrainning.banco;
+package com.dextrainning.filmes;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 
 import com.dextrainning.infra.jpa.Entidade;
 
 @Entity
-public class Banco extends Entidade {
+public class Diretor extends Entidade {
 
-	@Column
 	private String nome;
 
 	public String getNome() {

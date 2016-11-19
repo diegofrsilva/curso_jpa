@@ -3,8 +3,8 @@ package com.dextrainning.banco;
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 
-import com.dextrainning.endereco.Endereco;
-import com.dextrainning.jpa.Entidade;
+import com.dextrainning.banco.endereco.Endereco;
+import com.dextrainning.infra.jpa.Entidade;
 
 @Entity
 public class Agencia extends Entidade {
