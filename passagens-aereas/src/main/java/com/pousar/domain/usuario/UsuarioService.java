@@ -1,6 +1,5 @@
 package com.pousar.domain.usuario;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -40,17 +39,17 @@ public class UsuarioService extends BaseService<Usuario> {
 
 	public Usuario buscarParaLogin(String email, String senha) {
 		EntityManager em = EntityManagerUtil.criarEntityManager();
-		
+
 		try {
 			StringBuilder jpql = new StringBuilder();
 			jpql.append("SELECT u FROM Usuario u ");
 			jpql.append("WHERE UPPER(u.email) = UPPER(:email ) ");
 			jpql.append("AND u.senha = :senha");
-			
+
 			TypedQuery<Usuario> query = em.createQuery(jpql.toString(), Usuario.class);
 			query.setParameter("email", email);
 			query.setParameter("senha", senha);
-			
+
 			return query.getSingleResult();
 		} catch (NoResultException e) {
 			return null;
@@ -63,8 +62,8 @@ public class UsuarioService extends BaseService<Usuario> {
 		EntityManager em = EntityManagerUtil.criarEntityManager();
 
 		try {
-			TypedQuery<Usuario> query = em
-					.createQuery("SELECT u FROM Usuario u WHERE UPPER(u.email) = UPPER(:email )", Usuario.class);
+			TypedQuery<Usuario> query = em.createQuery("SELECT u FROM Usuario u WHERE UPPER(u.email) = UPPER(:email )",
+					Usuario.class);
 			query.setParameter("email", email);
 			return query.getSingleResult();
 		} catch (NoResultException e) {
@@ -75,7 +74,28 @@ public class UsuarioService extends BaseService<Usuario> {
 	}
 
 	public List<Usuario> buscarPor(String email, String nome) {
-		// TODO: Buscar usuario por email ou nome
-		return new ArrayList<>();
+		EntityManager em = EntityManagerUtil.criarEntityManager();
+		try {
+			StringBuilder jpql = new StringBuilder();
+			jpql.append("SELECT u FROM Usuario u WHERE 1=1 ");
+
+			if (Strings.isNotEmpty(email)) {
+				jpql.append("AND UPPER(u.email) LIKE UPPER(:email) ");
+			}
+			if (Strings.isNotEmpty(nome)) {
+				jpql.append("AND UPPER(u.nome) LIKE UPPER(:nome) ");
+			}
+			TypedQuery<Usuario> query = em.createQuery(jpql.toString(), Usuario.class);
+
+			if (Strings.isNotEmpty(email)) {
+				query.setParameter("email", "%" + email + "%");
+			}
+			if (Strings.isNotEmpty(nome)) {
+				query.setParameter("nome", "%" + nome + "%");
+			}
+			return query.getResultList();
+		} finally {
+			em.close();
+		}
 	}
 }
