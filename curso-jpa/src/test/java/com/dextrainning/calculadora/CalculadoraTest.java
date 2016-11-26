@@ -1,4 +1,4 @@
-package com.dextrainning.test;
+package com.dextrainning.calculadora;
 
 import org.junit.Assert;
 import org.junit.Test;

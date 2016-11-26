@@ -16,8 +16,8 @@ public class GaragemJPATest {
 
 	@Before
 	public void before() {
-		// TODO: alterar para garagem com JPA
-		this.garagem = new GaragemComMapa();
+		EntityManagerUtil.config("GARAGEM_TESTEPU");
+		this.garagem = new GaragemJPA();
 	}
 
 	@After

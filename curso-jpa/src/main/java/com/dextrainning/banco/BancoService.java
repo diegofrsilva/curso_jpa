@@ -1,6 +1,6 @@
 package com.dextrainning.banco;
 
-import com.dextrainning.service.GenericService;
+import com.dextrainning.infra.service.GenericService;
 
 public class BancoService extends GenericService<Banco> {
 

@@ -1,4 +1,4 @@
-package com.dextrainning.service;
+package com.dextrainning.infra.service;
 
 import java.text.MessageFormat;
 import java.util.List;
@@ -6,9 +6,10 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
-import com.dextrainning.jpa.EntityManagerUtil;
+import com.dextrainning.infra.jpa.Entidade;
+import com.dextrainning.infra.jpa.EntityManagerUtil;
 
-public class GenericService<T> {
+public class GenericService<T extends Entidade> {
 
 	private Class<T> targetClass;
 
@@ -20,14 +21,23 @@ public class GenericService<T> {
 		EntityManager em = EntityManagerUtil.criarEntityManager();
 		try {
 			em.getTransaction().begin();
-			em.persist(entidade);
+			saveOrUpdate(entidade, em);
 			em.getTransaction().commit();
 		} catch (Exception e) {
 			em.getTransaction().rollback();
-			throw new RuntimeException(e);
+			throw e;
 		} finally {
 			em.close();
 		}
+	}
+
+	protected T saveOrUpdate(T entidade, EntityManager em) {
+		if (entidade.getId() == null) {
+			em.persist(entidade);
+		} else {
+			return em.merge(entidade);
+		}
+		return entidade;
 	}
 
 	public T buscarPorId(Long id) {

@@ -1,14 +1,14 @@
 package com.dextrainning.banco;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Table;
 
 import com.dextrainning.infra.jpa.Entidade;
 
 @Entity
-public class Banco extends Entidade {
+@Table(name = "servico_bancario")
+public class ServicoBancario extends Entidade {
 
-	@Column
 	private String nome;
 
 	public String getNome() {

@@ -6,7 +6,7 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.dextrainning.jpa.EntityManagerUtil;
+import com.dextrainning.infra.jpa.EntityManagerUtil;
 
 public class BancoServiceTest {
 

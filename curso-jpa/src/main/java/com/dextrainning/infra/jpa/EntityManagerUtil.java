@@ -1,4 +1,4 @@
-package com.dextrainning.jpa;
+package com.dextrainning.infra.jpa;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;

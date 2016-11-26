@@ -1,15 +1,27 @@
 package com.dextraining.garagem.dominio.veiculo;
 
-// TODO: Adicionar anotacoes do JPA na classe
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
+@Entity
 public class Veiculo {
 
-	// TODO: Adicionar chave primaria
-	// TODO: Adicionar anotacoes do JPA nos atributos
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long id;
 
+	@Column(nullable = false)
 	private String marca;
+
+	@Column(nullable = false)
 	private String modelo;
+
+	@Column(unique = true)
 	private String placa;
+
 	private int ano;
 	private double preco;
 

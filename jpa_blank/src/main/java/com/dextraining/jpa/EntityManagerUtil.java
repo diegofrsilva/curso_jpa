@@ -22,6 +22,7 @@ public class EntityManagerUtil {
 	public static void fechar() {
 		if (FACTORY != null) {
 			FACTORY.close();
+			FACTORY = null;
 		}
 	}
 }
