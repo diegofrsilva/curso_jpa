@@ -7,12 +7,14 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -23,6 +25,7 @@ import com.dextrainning.banco.investimento.Investimento;
 import com.dextrainning.banco.telefone.Telefone;
 
 @Entity
+@Table(name = "pessoa_fisica")
 // @DiscriminatorValue("PF")
 public class PessoaFisica extends Pessoa {
 
@@ -31,7 +34,7 @@ public class PessoaFisica extends Pessoa {
 	@ManyToOne
 	private Agencia agencia;
 
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "pessoa_id")
 	private List<Telefone> telefones;
 
@@ -39,7 +42,7 @@ public class PessoaFisica extends Pessoa {
 	private List<Investimento> investimentos;
 
 	@JoinColumn(name = "id_endereco")
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL)
 	private Endereco endereco;
 
 	@ManyToMany

@@ -3,6 +3,7 @@ package com.dextrainning.banco.pessoa;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import com.dextrainning.banco.Agencia;
@@ -23,7 +24,8 @@ public class PessoaFisicaService extends GenericService<PessoaFisica> {
 		try {
 			em.getTransaction().begin();
 			if (entidade.getId() == null) {
-				// salvarTelefones(entidade.getTelefones(), em); Esta sendo salvo com cascade
+				// salvarTelefones(entidade.getTelefones(), em); Esta sendo
+				// salvo com cascade
 				salvarEndereco(entidade.getEndereco(), em);
 				em.persist(entidade);
 			} else {
@@ -58,12 +60,38 @@ public class PessoaFisicaService extends GenericService<PessoaFisica> {
 	}
 
 	public List<PessoaFisica> buscarPorAgencia(Agencia agencia) {
-		String jpql = "SELECT pessoa FROM PessoaFisica pessoa";
-		jpql += " WHERE pessoa.agencia = :agencia";
-
 		EntityManager em = EntityManagerUtil.criarEntityManager();
-		TypedQuery<PessoaFisica> query = em.createQuery(jpql, PessoaFisica.class);
-		query.setParameter("agencia", agencia);
-		return query.getResultList();
+		try {
+			String jpql = "SELECT pessoa FROM PessoaFisica pessoa";
+			jpql += " WHERE pessoa.agencia = :agencia";
+
+			TypedQuery<PessoaFisica> query = em.createQuery(jpql, PessoaFisica.class);
+			query.setParameter("agencia", agencia);
+			return query.getResultList();
+		} finally {
+			em.close();
+		}
+	}
+	
+	public List<PessoaFisica> buscarPorAgenciaComNativeQuery(Agencia agencia) {
+		EntityManager em = EntityManagerUtil.criarEntityManager();
+		try {
+			String jpql = "SELECT pessoa.* FROM pessoa_fisica pessoa WHERE pessoa.agencia_id = :agenciaId";
+			TypedQuery<PessoaFisica> query = em.createQuery(jpql, PessoaFisica.class);
+			query.setParameter("agenciaId", agencia.getId());
+			return query.getResultList();
+		} finally {
+			em.close();
+		}
+	}
+
+	public List<Object[]> buscarNomeEDataNascimento() {
+		EntityManager em = EntityManagerUtil.criarEntityManager();
+		try {
+			Query query = em.createQuery("SELECT pessoa.nome, pessoa.dataNascimento FROM PessoaFisica pessoa");
+			return query.getResultList();
+		} finally {
+			em.close();
+		}
 	}
 }

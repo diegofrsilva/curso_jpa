@@ -19,11 +19,6 @@ import com.dextrainning.banco.ServicoBancarioService;
 import com.dextrainning.banco.endereco.Endereco;
 import com.dextrainning.banco.investimento.Investimento;
 import com.dextrainning.banco.investimento.InvestimentoService;
-import com.dextrainning.banco.pessoa.Pessoa;
-import com.dextrainning.banco.pessoa.PessoaFisica;
-import com.dextrainning.banco.pessoa.PessoaFisicaService;
-import com.dextrainning.banco.pessoa.PessoaJuridica;
-import com.dextrainning.banco.pessoa.PessoaJuridicaService;
 import com.dextrainning.banco.telefone.Telefone;
 import com.dextrainning.banco.telefone.TipoTelefone;
 import com.dextrainning.infra.jpa.EntityManagerUtil;
@@ -51,7 +46,12 @@ public class PessoaServiceTest {
 		pessoa.setCpf("000.000.000-00");
 		pessoa.setEndereco(endereco);
 		pessoaFisicaService.salvar(pessoa);
-
+		
+		List<Object[]> resultados = pessoaFisicaService.buscarNomeEDataNascimento();
+		for(Object[] resultado : resultados) {
+			System.out.println(resultado[0]);
+			System.out.println(resultado[1]);
+		}
 		PessoaJuridica pessoaPJ = new PessoaJuridica();
 		pessoaPJ.setNome("Empresa qualquer");
 		pessoaPJ.setCnpj("000.000.000/01");
@@ -63,15 +63,30 @@ public class PessoaServiceTest {
 	@Test
 	public void buscarPessoaFisicaPorIdTeste() throws ParseException {
 		PessoaFisicaService pessoaFisicaService = new PessoaFisicaService();
-
+		
+		Telefone  telefone = new Telefone("0", TipoTelefone.RESIDENCIAL);
+		Endereco endereco = new Endereco();
+		
 		PessoaFisica pessoa = new PessoaFisica();
 		pessoa.setDataNascimento(new Date());
 		pessoa.setNome("Diego Farias da Silva");
+		pessoa.setEndereco(endereco);
+		pessoa.getTelefones().add(telefone);
+		
 		pessoaFisicaService.salvar(pessoa);
 
-		Pessoa pessoaNaoEncontrada = pessoaFisicaService.buscarPorId(-1L);
-		Pessoa pessoaEncontrada = pessoaFisicaService.buscarPorId(pessoa.getId());
-
+		PessoaFisica pessoaNaoEncontrada = pessoaFisicaService.buscarPorId(-1L);
+//		PessoaFisica pessoaEncontrada = pessoaFisicaService.buscarPorId(pessoa.getId());
+		
+		EntityManager em = EntityManagerUtil.criarEntityManager();
+		PessoaFisica pessoaEncontrada = em.find(PessoaFisica.class, pessoa.getId());
+		pessoaEncontrada.getTelefones().size();
+		
+		PessoaFisica pessoaBusca = em.find(PessoaFisica.class, pessoa.getId());
+		Assert.assertTrue(pessoaBusca == pessoaEncontrada);
+		
+		em.close();
+		
 		Assert.assertNull(pessoaNaoEncontrada);
 		Assert.assertNotNull(pessoaEncontrada);
 	}

@@ -69,4 +69,14 @@ public class InvestimentoService extends GenericService<Investimento> {
 		}
 	}
 
+	public Double somarTodosInvestimentos() {
+		EntityManager em = EntityManagerUtil.criarEntityManager();
+		try {
+			return em
+					.createQuery("SELECT SUM(i.valor) FROM Investimento i ", Double.class)
+					.getSingleResult();
+		} finally {
+			em.close();
+		}
+	}
 }

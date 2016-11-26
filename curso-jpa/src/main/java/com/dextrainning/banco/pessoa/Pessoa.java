@@ -7,7 +7,7 @@ import com.dextrainning.infra.jpa.Entidade;
 
 @MappedSuperclass
 //@Entity
-//@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+//@Inheritance(strategy = InheritanceType.JOINED)
 //@DiscriminatorColumn(name = "tipo")
 public class Pessoa extends Entidade {
 
