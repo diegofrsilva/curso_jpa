@@ -39,17 +39,24 @@ public class UsuarioService extends BaseService<Usuario> {
 	}
 
 	public Usuario buscarParaLogin(String email, String senha) {
-		// TODO: implementar login buscando dados no banco de dados
-
-		if ("admin@pousar.com".equals(email) && "123".equals(senha)) {
-			Usuario usuario = new Usuario();
-			usuario.setEmail("admin@pousar.com");
-			usuario.setNome("Administrador");
-			usuario.setSenha("123");
-
-			return usuario;
+		EntityManager em = EntityManagerUtil.criarEntityManager();
+		
+		try {
+			StringBuilder jpql = new StringBuilder();
+			jpql.append("SELECT u FROM Usuario u ");
+			jpql.append("WHERE UPPER(u.email) = UPPER(:email ) ");
+			jpql.append("AND u.senha = :senha");
+			
+			TypedQuery<Usuario> query = em.createQuery(jpql.toString(), Usuario.class);
+			query.setParameter("email", email);
+			query.setParameter("senha", senha);
+			
+			return query.getSingleResult();
+		} catch (NoResultException e) {
+			return null;
+		} finally {
+			em.close();
 		}
-		return null;
 	}
 
 	public Usuario buscarPorEmail(String email) {
