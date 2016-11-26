@@ -1,14 +1,23 @@
 package com.pousar.domain.usuario;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+
 import com.pousar.jpa.Entidade;
 
 /**
  * Classe que representa um usuario do sistema
  */
+@Entity
 public class Usuario extends Entidade {
 
+	@Column(nullable = false, length = 30)
 	private String nome;
+
+	@Column(nullable = false, unique = true, length = 30)
 	private String email;
+
+	@Column(nullable = false, length = 30)
 	private String senha;
 
 	public String getNome() {
